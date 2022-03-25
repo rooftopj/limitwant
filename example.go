@@ -1,4 +1,4 @@
-package main
+package limitwant
 
 import (
 	"fmt"
