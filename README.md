@@ -4,19 +4,25 @@ This package provides a Golang implementation of the Redis-based distributed rat
 
 ---
 
+## 0. Install
+```shell
+go get github.com/rooftopj/limitwant
+```
+---
+
 ## 1. Sliding Window (SW) Algorithm
 This implementation uses `Redis` to count the requests in the current time window, and caches the amount of requests in the previous time window locally. If there is no data record in the cache, `SingleFilght` is used to obtain data from `Redis` and cache it. SingleFilght is cleared and the health-check of `Redis` is performed periodically in the background.
 
 ### SW's Example
 ```go
-limitConfig := &entry.LimitWantConfig{LimitType: entry.SlidingWindowLimiterType}
+limitConfig := limitwant.SWLimitConfig()
 redisCli, err := redis.Dial("tcp", "your Redis ip:port", redis.DialPassword("your Redis password"))
-limiter := NewLimitWant(limitConfig, redisCli)
+limiter := limitwant.NewLimitWant(limitConfig, redisCli)
 
 limitKey := "your limit key"
 var limitFreq int64 = 10 // seconds
 var limitCount int64 = 1000
-limitInfo := &entry.LimitInfo{limitKey, limitFreq, limitCount} // 1000Requsets/10s
+limitInfo := limitwant.SWLimitInfo(limitKey, limitFreq, limitCount) // 1000Requsets/10s
 ok, err := limiter.Take(limitInfo)
 if err != nil {
     panic(err)
@@ -27,3 +33,4 @@ if ok {
 } else {
     fmt.Println("the request is limited")
 }
+```
