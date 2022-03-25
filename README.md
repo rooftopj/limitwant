@@ -1,7 +1,5 @@
 # ratelimit (Under development) [![](https://img.shields.io/badge/language-Go-blue)](https://go.dev/)
 
-
----
 This package provides a Golang implementation of the Redis-based distributed rate limit algorithm, including Sliding Window, Token Bucket and Leaky Bucket.
 
 ---
