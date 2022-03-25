@@ -6,12 +6,6 @@ import (
 	"limitwant/limiter/slidingwindowlimiter"
 )
 
-type LimitInfo struct {
-	LimitKey  string
-	LimitFreq int64
-	LimitNum  int64
-}
-
 func NewLimitWant(config *entry.LimitWantConfig, redisCli redis.Conn) entry.Limiter {
 	t := config.LimitType
 	limitWant := &entry.LimitWant{config, redisCli}
@@ -27,4 +21,12 @@ func NewLimitWant(config *entry.LimitWantConfig, redisCli redis.Conn) entry.Limi
 		panic("Unknown limiter type! ")
 	}
 	return res
+}
+
+func SWLimitInfo(key string, freq, num int64) *entry.LimitInfo {
+	return &entry.LimitInfo{
+		LimitKey:  key,
+		LimitFreq: freq,
+		LimitNum:  num,
+	}
 }

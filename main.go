@@ -17,8 +17,8 @@ func swExample() {
 
 	limitKey := "your limit key"
 	var limitFreq int64 = 10 // seconds
-	var limitCount int64 = 1000
-	limitInfo := &LimitInfo{limitKey, limitFreq, limitCount} // 1000Requsets/10s
+	var limitNum int64 = 1000
+	limitInfo := SWLimitInfo(limitKey, limitFreq, limitNum) // 1000Requsets/10s
 	ok, err := limiter.Take(limitInfo)
 	if err != nil {
 		panic(err)
