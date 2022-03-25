@@ -2,8 +2,14 @@ package main
 
 import (
 	"github.com/garyburd/redigo/redis"
-	"limitwant/entry"
-	"limitwant/limiter/slidingwindowlimiter"
+	"github.com/rooftopj/limitwant/entry"
+	"github.com/rooftopj/limitwant/limiter/slidingwindowlimiter"
+)
+
+const (
+	SlidingWindowLimiterType = iota
+	TokenBucketLimiterType
+	LeakyBucketLimiterType
 )
 
 func NewLimitWant(config *entry.LimitWantConfig, redisCli redis.Conn) entry.Limiter {
@@ -11,11 +17,11 @@ func NewLimitWant(config *entry.LimitWantConfig, redisCli redis.Conn) entry.Limi
 	limitWant := &entry.LimitWant{config, redisCli}
 	var res entry.Limiter
 	switch t {
-	case entry.SlidingWindowLimiterType:
+	case SlidingWindowLimiterType:
 		res = slidingwindowlimiter.NewSlidingWindowLimiter(limitWant)
-	case entry.TokenBucketLimiterType:
+	case TokenBucketLimiterType:
 		// TODO
-	case entry.LeakyBucketLimiterType:
+	case LeakyBucketLimiterType:
 		// TODO
 	default:
 		panic("Unknown limiter type! ")
@@ -28,5 +34,11 @@ func SWLimitInfo(key string, freq, num int64) *entry.LimitInfo {
 		LimitKey:  key,
 		LimitFreq: freq,
 		LimitNum:  num,
+	}
+}
+
+func SWLimitConfig() *entry.LimitWantConfig {
+	return &entry.LimitWantConfig{
+		LimitType: SlidingWindowLimiterType,
 	}
 }

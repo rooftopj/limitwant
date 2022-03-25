@@ -4,12 +4,6 @@ import (
 	"github.com/garyburd/redigo/redis"
 )
 
-const (
-	SlidingWindowLimiterType = iota
-	TokenBucketLimiterType
-	LeakyBucketLimiterType
-)
-
 type LimitInfo struct {
 	LimitKey  string
 	LimitFreq int64

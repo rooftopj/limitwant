@@ -1,4 +1,4 @@
-module limitwant
+module github.com/rooftopj/limitwant
 
 go 1.16
 

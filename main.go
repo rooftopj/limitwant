@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/garyburd/redigo/redis"
-	"limitwant/entry"
 )
 
 func main() {
@@ -11,7 +10,7 @@ func main() {
 }
 
 func swExample() {
-	limitConfig := &entry.LimitWantConfig{LimitType: entry.SlidingWindowLimiterType}
+	limitConfig := SWLimitConfig()
 	redisCli, err := redis.Dial("tcp", "your Redis ip:port", redis.DialPassword("your Redis password"))
 	limiter := NewLimitWant(limitConfig, redisCli)
 
