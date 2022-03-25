@@ -6,6 +6,12 @@ import (
 	"limitwant/limiter/slidingwindowlimiter"
 )
 
+type LimitInfo struct {
+	LimitKey  string
+	LimitFreq int64
+	LimitNum  int64
+}
+
 func NewLimitWant(config *entry.LimitWantConfig, redisCli redis.Conn) entry.Limiter {
 	t := config.LimitType
 	limitWant := &entry.LimitWant{config, redisCli}
